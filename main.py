@@ -7,7 +7,6 @@ pygame.font.init()
 
 FPS = 50
 size = width, height = 500, 500
-step = 50
 screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 
@@ -72,7 +71,7 @@ tile_images = {
 }
 player_image = load_image('mario.png')
 
-tile_width = tile_height = 50
+step = tile_width = tile_height = 50
 
 
 class Tile(pygame.sprite.Sprite):
@@ -112,8 +111,9 @@ def generate_level(level):
     return new_player, x, y
 
 
+file = input('Введите имя файла\n')
+player, level_x, level_y = generate_level(load_level(file))
 start_screen()
-player, level_x, level_y = generate_level(load_level('map.txt'))
 running = True
 while running:
     for event in pygame.event.get():
@@ -121,23 +121,23 @@ while running:
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                if player.rect.x < step or load_level('map.txt')[player.rect.y // step] \
+                if player.rect.x < step or load_level(file)[player.rect.y // step] \
                         [player.rect.x // step - 1] == '#':
                     continue
                 player.rect.x -= step
             if event.key == pygame.K_RIGHT:
-                if player.rect.x // step == level_x or load_level('map.txt')[player.rect.y // step] \
+                if player.rect.x // step == level_x or load_level(file)[player.rect.y // step] \
                         [player.rect.x // step + 1] == '#':
                     continue
                 player.rect.x += step
             if event.key == pygame.K_UP:
-                if player.rect.y < step or load_level('map.txt')[player.rect.y // step - 1] \
+                if player.rect.y < step or load_level(file)[player.rect.y // step - 1] \
                         [player.rect.x // step] == '#':
                     continue
                 player.rect.y -= step
             if event.key == pygame.K_DOWN:
                 if player.rect.y // step == level_y or \
-                        load_level('map.txt')[player.rect.y // step + 1][
+                        load_level(file)[player.rect.y // step + 1][
                             player.rect.x // step] == '#':
                     continue
                 player.rect.y += step
